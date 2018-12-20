@@ -26,7 +26,9 @@ defmodule RssFeedBot.MixProject do
       {:redix, ">= 0.8.2"},
       {:httpoison, "~> 1.4"},
       {:floki, "~> 0.20.0"},
-      {:html_sanitize_ex, "~> 1.3.0-rc3"}
+      {:html_sanitize_ex, "~> 1.3.0-rc3"},
+      {:quantum, "~> 2.3"},
+      {:timex, "~> 3.0"}
     ]
   end
 end

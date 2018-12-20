@@ -3,15 +3,21 @@ defmodule RssFeedBot.Rss do
 
   defp get_floki_child!({_, _, [child]}), do: child
   defp get_floki_child!([{_, _, [child]}]), do: child
+  defp get_floki_child!(_), do: ""
 
   defp get_feed_map(item) do
-    [title, link, description] =
-      ["title", "link", "description"]
+    [title, link, description, pub_date] =
+      ["title", "link", "description", "pubdate"]
       |> Enum.map(&Floki.find(item, &1))
       |> Enum.map(&get_floki_child!/1)
       |> Enum.map(&String.trim/1)
 
-    %{title: title, link: link, description: HtmlSanitizeEx.strip_tags(description)}
+    %{
+      title: title,
+      link: link,
+      description: HtmlSanitizeEx.strip_tags(description),
+      pub_date: pub_date
+    }
   end
 
   def get_feed(url) do

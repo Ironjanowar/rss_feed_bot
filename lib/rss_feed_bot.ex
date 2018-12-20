@@ -10,7 +10,9 @@ defmodule RssFeedBot do
 
     children = [
       supervisor(ExGram, []),
-      supervisor(RssFeedBot.Bot, [:polling, token])
+      supervisor(RssFeedBot.Bot, [:polling, token]),
+      {Redix, [host: "localhost", name: :redix]},
+      worker(RssFeedBot.Scheduler, [])
     ]
 
     opts = [strategy: :one_for_one, name: RssFeedBot]
