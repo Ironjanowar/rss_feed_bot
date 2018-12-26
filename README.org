@@ -1,5 +1,7 @@
-** Todo [2/4]
+** Todo [4/4]
 - [X] Add Redis client
-- [ ] Find a scheduler, [[https://github.com/quantum-elixir/quantum-core][quantum-core]] may be a good choice
-- [ ] Set scheduler to send feed to users reading from Redis
+- [X] Find a scheduler, [[https://github.com/quantum-elixir/quantum-core][quantum-core]] may be a good choice
+- [X] Set scheduler to send feed to users reading from Redis
 - [X] Add commands to add an RSS
+- [ ] Test scheduler
+- [ ] Implement a way of sending unsent RSS feed only
