@@ -6,14 +6,13 @@ defmodule RssFeedBot.Scheduler do
 
   require Logger
 
-  defp format_feed(%{title: title, description: description, link: link, pub_date: pub_date}) do
-    "*[#{pub_date}]* _#{title}_\n#{link}\n\n    #{description}"
-  end
-
   defp send_rss_message(feed, user) do
-    formatted_feed = format_feed(feed)
+    formatted_feed = RssFeedBot.Bot.format_feed_map(feed)
 
-    ExGram.send_message(user, formatted_feed, parse_mode: "Markdown")
+    ExGram.send_message(user, formatted_feed,
+      parse_mode: "Markdown",
+      disable_web_page_preview: true
+    )
   end
 
   defp send_rss_messages({all_feeds, user}) do
@@ -24,7 +23,7 @@ defmodule RssFeedBot.Scheduler do
   end
 
   defp get_links_by_user({links, user}) do
-    {Enum.map(links, &RssFeedBot.Rss.get_feed/1), user}
+    {Enum.map(links, &RssFeedBot.Rss.get_last_feeds(&1, 3)), user}
   end
 
   def send_rss() do

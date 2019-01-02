@@ -10,6 +10,10 @@ defmodule RssFeedBot.Bot do
 
   def bot(), do: @bot
 
+  def format_feed_map(%{title: title, description: description, link: link, pub_date: pub_date}) do
+    "*[#{pub_date}]* _#{title}_\n#{link}\n\n    #{description}"
+  end
+
   def handle({:command, "start", _msg}, context) do
     answer(context, "Well hello!\n Send me the *RSS* you want to subscribe",
       parse_mode: "Markdown"
@@ -32,5 +36,19 @@ defmodule RssFeedBot.Bot do
       end
 
     answer(context, formated_links, parse_mode: "Markdown")
+  end
+
+  def handle({:command, "get", %{chat: %{id: uid}, text: text}}, context) do
+    case Integer.parse(text) do
+      {number, ""} ->
+        RssFeedBot.Rss.get_last_user_feeds(uid, number)
+        |> Enum.map(&format_feed_map/1)
+        |> Enum.map(
+          &ExGram.send_message(uid, &1, parse_mode: "Markdown", disable_web_page_preview: true)
+        )
+
+      _ ->
+        answer(context, "That's not a valid number")
+    end
   end
 end

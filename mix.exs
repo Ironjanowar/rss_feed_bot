@@ -28,7 +28,8 @@ defmodule RssFeedBot.MixProject do
       {:floki, "~> 0.20.0"},
       {:html_sanitize_ex, "~> 1.3.0-rc3"},
       {:quantum, "~> 2.3"},
-      {:timex, "~> 3.0"}
+      {:timex, "~> 3.0"},
+      {:nimble_parsec, "0.4.0"}
     ]
   end
 end
